@@ -1,0 +1,48 @@
+stages:
+  - install
+  - preprocess
+  - train
+  - evaluate
+  - submit
+
+variables:
+  PYTHONPATH: "/usr/local/lib/python3.8/dist-packages"
+
+# Установка зависимостей
+install_dependencies:
+  stage: install
+  image: python:3.8
+  script:
+    - pip install --upgrade pip
+    - pip install pandas numpy seaborn matplotlib scikit-learn scipy
+
+# Предобработка данных
+preprocess_data:
+  stage: preprocess
+  image: python:3.8
+  script:
+    - python preprocess.py  # Если вы сохранили код для предобработки в отдельный файл
+
+# Обучение модели
+train_model:
+  stage: train
+  image: python:3.8
+  script:
+    - python train_model.py  # Если вы сохранили код для обучения в отдельный файл
+
+# Оценка модели
+evaluate_model:
+  stage: evaluate
+  image: python:3.8
+  script:
+    - python evaluate_model.py  # Если вы сохранили код для оценки модели в отдельный файл
+
+# Отправка результатов
+submit_results:
+  stage: submit
+  image: python:3.8
+  script:
+    - python submit.py  # Если вы сохранили код для сохранения результатов в отдельный файл
+  artifacts:
+    paths:
+      - submission.csv
